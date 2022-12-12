@@ -9,7 +9,7 @@ source "amazon-ebs" "al2" {
   launch_block_device_mappings {
     volume_size           = var.block_device_size_gb
     delete_on_termination = true
-    volume_type           = "gp2"
+    volume_type           = "gp3"
     device_name           = "/dev/xvda"
   }
   region = var.region
@@ -179,6 +179,16 @@ build {
 
   provisioner "shell" {
     script = "scripts/enable-services.sh"
+  }
+
+  provisioner "shell" {
+    script = "scripts/install-cog.sh"
+    environment_vars = [
+      "REGION=${var.region}",
+      "AL_NAME=amzn2",
+      "AIR_GAPPED=${var.air_gapped}",
+      "DOCKER_IMAGE=${local.prewarm_image}"
+    ]
   }
 
   provisioner "shell" {

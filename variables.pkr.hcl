@@ -9,14 +9,15 @@ packer {
 
 locals {
   packages_al1    = "amazon-efs-utils ec2-net-utils acpid irqbalance numactl rng-tools docker-storage-setup"
-  packages_al2    = "amazon-efs-utils ec2-net-utils acpid amazon-ssm-agent yum-plugin-upgrade-helper"
+  packages_al2    = "amazon-efs-utils ec2-net-utils acpid amazon-ssm-agent yum-plugin-upgrade-helper jq go dpkg"
   packages_al2022 = "amazon-efs-utils amazon-ssm-agent amazon-ec2-net-utils acpid"
+  prewarm_image   = "nvidia/cuda:11.3.0-cudnn8-devel-ubuntu20.04"
 }
 
 variable "ami_name_prefix_al2" {
   type        = string
   description = "Outputted AMI name prefix."
-  default     = "unofficial-amzn2-ami-ecs"
+  default     = "onevarez-nvidia-amzn2-ami-ecs"
 }
 
 variable "ami_name_prefix_al2022" {
@@ -37,7 +38,7 @@ variable "region" {
 
 variable "block_device_size_gb" {
   type        = number
-  default     = 30
+  default     = 100
   description = "Size of the root block device."
 }
 

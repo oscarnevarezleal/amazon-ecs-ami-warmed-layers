@@ -4,12 +4,12 @@ locals {
 
 source "amazon-ebs" "al2gpu" {
   ami_name        = "${local.ami_name_al2gpu}"
-  ami_description = "Amazon Linux AMI 2.0.${var.ami_version} x86_64 ECS HVM GP2"
-  instance_type   = "c5.4xlarge"
+  ami_description = "Amazon Linux AMI 2.0.${var.ami_version} x86_64 ECS HVM GP3"
+  instance_type   = "g5.xlarge"
   launch_block_device_mappings {
     volume_size           = var.block_device_size_gb
     delete_on_termination = true
-    volume_type           = "gp2"
+    volume_type           = "gp3"
     device_name           = "/dev/xvda"
   }
   region = var.region
@@ -21,7 +21,7 @@ source "amazon-ebs" "al2gpu" {
     most_recent = true
   }
   ssh_username = "ec2-user"
-  tags = {
+  tags         = {
     os_version          = "Amazon Linux 2"
     source_image_name   = "{{ .SourceAMIName }}"
     ecs_runtime_version = "Docker version ${var.docker_version}"
